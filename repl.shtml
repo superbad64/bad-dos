@@ -37,7 +37,7 @@
 	</head>
 	<body>
 		<pre size="80" id="repl_console"></pre>
-		<span id="repl_prompt">C:\</span><input type="text" size="80" id="repl_input"></input>
+		<span id="repl_prompt">C:\</span><input autofocus maxlength="80" id="repl_input"></input>
 	</body>
 	<script src="repl.js"></script>
 </html>

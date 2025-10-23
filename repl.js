@@ -6,6 +6,7 @@ var replHistory = [];
 var replHistoryIndex = 0;
 var replCwd = [ "C:" ];
 var directoryDepth = 0;
+var initialWidth = 0;
 
 var sys32DeleteResponse = [ "Figured someone would try this. I know I would !",
 				"You're really looking for trouble, aren't you ?",
@@ -75,9 +76,17 @@ var fs = {
 					"fileType": "EXE",
 					"permString": "-r-xr-xr-x"
 				},
+				"EMM386": {
+					"fileType": "EXE",
+					"permString": "-r--------"
+				},
 				"HELP": {
 					"fileType": "EXE",
 					"permString": "-r-xr-xr-x"
+				},
+				"HIMEM": {
+					"fileType": "EXE",
+					"permString": "-r--------"
 				},
 				"RM": {
 					"fileType": "LNK",
@@ -136,6 +145,10 @@ function replEval(e) {
 			// Add fresh input to the console window
 			print(replPrompt.innerHTML + replInput.value + "<br>");
 			var command = replInput.value.split(' ');
+			// Re-focus on the input area
+			window.location.href = "#repl_input";
+			// Adjust width to account for prompt
+			replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
 
 			// Check if input is a valid command
 			switch (command[0]) {
@@ -154,6 +167,7 @@ function replEval(e) {
 						else { replPrompt.innerHTML = replCwd.join("\\") + "\\>"; }
 					}
 					else {
+						// Actually process changing directories
 						var tempCwd = replCwd.concat(command[1].toUpperCase());
 
 						var checkString = "fs";
@@ -171,11 +185,9 @@ function replEval(e) {
 									print("Access denied<br>");
 								}
 							} else {
-								console.log(checkString);
-								console.log(eval(checkString));
 								print("Invalid directory<br>");
 							}
-						} catch (error) {
+						} catch (error) {	// That shouldn't happen (anymore)
 							console.error(error);
 							print("Invalid directory<br>");
 						}
@@ -194,7 +206,7 @@ function replEval(e) {
 							easterEggIndex += 1;
 						}
 					} else {
-						print("File system is read-only<br>");
+						print("File system is read-only<br>");	// No deleting anything !
 					}
 					break;
 				case "dir":	// Displays content of current working dir
@@ -218,10 +230,16 @@ function replEval(e) {
 							}
 						}
 					}
-
+					if (Object.keys(dummy).length == 0) {
+						print("0 items found<br>");
+					} else if (Object.keys(dummy).length == 1) {
+						print("1 item found<br>");
+					} else {
+						print(Object.keys(dummy).length + " items found<br>");
+					}
 					print("<br>");
 					break;
-				case "echo":	// Displays things. Probably prone to be injected to hell and back, patch this
+				case "echo":	// Displays things. Probably prone to be injected to hell and back
 					for (let e of command.slice(1)) {
 						print(e + " ");
 					}
@@ -285,7 +303,14 @@ function replEval(e) {
 					// TODO: Some ASCII art ?
 					break;
 				default:	// What even did you just enter
-					print("Bad command or file name<br>");
+					var checkString = "fs";
+					for (let pathlet of replCwd) {
+						checkString += "[\"" + pathlet + "\"]";
+					}
+					var dummy = eval(checkString);
+
+					if (Object.keys(dummy).includes(command[0].toUpperCase())) { print("This program is unavailable in the current running mode<br>") }
+					else { print("Bad command or file name<br>"); }
 					break
 			}
 
@@ -317,4 +342,12 @@ function replEval(e) {
 
 /* Startup */
 print("Starting BAD-DOS...<br><br>");
+
+// Set prompt
+replPrompt.innerHTML = replCwd.join("\\") + "\\>";
+
+// Adjust width to account for prompt
+replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
+
+// Add a function to focus the input widget regardless of where one clicks in the window
 window.onclick = function () { document.getElementById("repl_input").focus(); }
