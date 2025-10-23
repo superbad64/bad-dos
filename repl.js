@@ -200,7 +200,7 @@ function replEval(e) {
 				case "deltree":
 				case "rm":
 				case "rmdir":
-					if ((replCwd.at(-1) == "DOS") && (command[1] == "System32")) {
+					if ((replCwd.at(-1) == "DOS") && (command[1].toUpperCase() == "SYSTEM32")) {
 						print(sys32DeleteResponse[easterEggIndex] + "<br>");
 						if (easterEggIndex + 1 != sys32DeleteResponse.length) {
 							easterEggIndex += 1;
