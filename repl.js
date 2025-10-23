@@ -230,12 +230,12 @@ function replEval(e) {
 							}
 						}
 					}
-					if (Object.keys(dummy).length == 0) {
+					if (Object.keys(dummy).length - 2 == 0) {
 						print("0 items found<br>");
-					} else if (Object.keys(dummy).length == 1) {
+					} else if (Object.keys(dummy).length - 2 == 1) {
 						print("1 item found<br>");
 					} else {
-						print(Object.keys(dummy).length + " items found<br>");
+						print((Object.keys(dummy).length - 2) + " items found<br>");
 					}
 					print("<br>");
 					break;
