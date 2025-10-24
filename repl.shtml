@@ -9,7 +9,7 @@
 			}
 
 			@font-face {
-				font-family: "Perfect DOS VGA 437"; src: url("/common/Perfect DOS VGA 437.otf"); 
+				font-family: "Perfect DOS VGA 437"; src: url("/common/Perfect DOS VGA 437.ttf"); 
 			}
 
 			html {

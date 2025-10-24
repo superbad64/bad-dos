@@ -4,15 +4,25 @@ var replPrompt = document.getElementById("repl_prompt");
 var replInput = document.getElementById("repl_input");
 var replHistory = [];
 var replHistoryIndex = 0;
-var replCwd = [ "C:" ];
+var replCwd = [ "C:", "USERS", "GUEST" ];
 var directoryDepth = 0;
 var initialWidth = 0;
 
-var sys32DeleteResponse = [ "Figured someone would try this. I know I would !",
-				"You're really looking for trouble, aren't you ?",
+var sys32DeleteResponse = [ "Can't let you do that, Star Fox !",
+				"Figured someone would try this. I know I would !",
 				"It's a simulacrum of a file system that's read-only anyway; nothing would happen if you deleted that",
-				"You can't delete System32 even here mate",
-				"..." ];
+				"You're really looking for trouble, aren't you ?",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...",
+				"...You just don't quit, huh ?",
+				"Alright. I'll let you. Enter that command one more time..." ];
 var easterEggIndex = 0;
 
 replInput.addEventListener("keydown", replEval);
@@ -39,12 +49,28 @@ var fs = {
                 "DOCUME~1": {
                     "fileType": "DIR",
                     "permString": "dr-xr--r--"
-                }
+                },
+				"AUTOEXEC": {
+					"fileType": "BAT",
+					"permString": "-r-xr-xr-x"
+				},
+				"COMMAND": {
+					"fileType": "COM",
+					"permString": "-r-xr-xr-x"
+				},
+				"CONFIG": {
+					"fileType": "SYS",
+					"permString": "-r--r--r--"
+				},
+				"MOTD": {
+					"fileType": "TXT",
+					"permString": "-rwxr--r--"
+				}
             }
         },
         "DOS": {
             "fileType": "DIR",
-            "permString": "dr--r--r--",
+            "permString": "dr-xr-xr-x",
 			"BIN": {
                 "fileType": "DIR",
                 "permString": "dr-xr-xr-x",
@@ -114,22 +140,6 @@ var fs = {
                 "permString": "d-------"
             }
         },
-        "AUTOEXEC": {
-            "fileType": "BAT",
-            "permString": "-r-x------"
-        },
-        "COMMAND": {
-            "fileType": "COM",
-            "permString": "-r-x------"
-        },
-        "CONFIG": {
-            "fileType": "SYS",
-            "permString": "-r-x------"
-        },
-        "MOTD": {
-            "fileType": "TXT",
-            "permString": "-r-x------"
-        }
     }
 };
 
@@ -203,8 +213,26 @@ function replEval(e) {
 				case "RMDIR":
 					if ((replCwd.at(-1) == "DOS") && (command[1].toUpperCase() == "SYSTEM32")) {
 						print(sys32DeleteResponse[easterEggIndex] + "<br>");
-						if (easterEggIndex + 1 != sys32DeleteResponse.length) {
+						if (easterEggIndex + 1 != sys32DeleteResponse.length + 1) {
 							easterEggIndex += 1;
+						} else {
+							// Told ya
+							replPrompt.remove();
+							replInput.remove();
+							replConsole.style.color = "white";
+							replConsole.style.backgroundColor = "darkblue";
+							document.getElementsByTagName("html").style.backgroundColor = "darkblue";
+
+							replConsole.innerHTML = "<pre>";
+							replConsole.innerHTML += "A problem has been detected and BAD-DOS has been shut down to prevent damage to your computer.<br>";
+							replConsole.innerHTML += "<br>";
+							replConsole.innerHTML += "ERR_STUBBORN_AHH_USER<br>";
+							replConsole.innerHTML += "<br>"
+							replConsole.innerHTML += "If this is the first time you've seen this error screen, restart your computer. If this screen appears again, consider having prolonged contact with plant-based garden lining away from the screen.<br>";
+							replConsole.innerHTML += "<br>"
+							replConsole.innerHTML += "Technical Information:<br>"
+							replConsole.innerHTML += "<br>";
+							replConsole.innerHTML += "*** STOP: 0x5F3759DF (0xDEADBEEF, 0xABBACABB, 0xABADD00D, 0xDEFEC8ED)";
 						}
 					} else {
 						print("File system is read-only<br>");	// No deleting anything !
@@ -212,9 +240,9 @@ function replEval(e) {
 					break;
 				case "DIR":	// Displays content of current working dir
 					print("<br>");
-					print("&nbsp;Volume in drive C is BAD-DOS_64<br>");
-					print("&nbsp;Volume Serial Number is BAAD-C0D3<br><br>");
-					print("&nbsp;Directory: " + replCwd.join("\\") + "<br><br>");
+					print(" Volume in drive C is BAD-DOS_64<br>");
+					print(" Volume Serial Number is BAAD-C0D3<br><br>");
+					print(" Directory: " + replCwd.join("\\") + "<br><br>");
 
 					var checkString = "fs";
 					for (let pathlet of replCwd) {
@@ -224,10 +252,10 @@ function replEval(e) {
 
 					for (var elem of Object.keys(dummy)) {
 						if (dummy[elem]["fileType"]) {
-							if (elem.length >= 7) {
-								print(elem + "\t" + dummy[elem]["fileType"] + "\t\t" + dummy[elem]["permString"] + "<br>");
+							if (elem.length > 7) {
+								print(elem + "\t" + dummy[elem]["fileType"] + "\t" + dummy[elem]["permString"] + "<br>");
 							} else {
-								print(elem + "\t\t" + dummy[elem]["fileType"] + "\t\t" + dummy[elem]["permString"] + "<br>");
+								print(elem + "\t\t" + dummy[elem]["fileType"] + "\t" + dummy[elem]["permString"] + "<br>");
 							}
 						}
 					}
@@ -298,8 +326,8 @@ function replEval(e) {
 					break;
 				case "WINVER":	// *fetch for the neolithic age
 					print("<br>");
-					print("&nbsp;BAD-DOS version 6.4<br>");
-					print("&nbsp;\"I was bored\" - Bad64<br>");
+					print(" BAD-DOS version 6.4<br>");
+					print(" \"I was bored\" - Bad64<br>");
 					print("<br>");
 					// TODO: Some ASCII art ?
 					break;
