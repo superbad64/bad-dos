@@ -221,14 +221,14 @@ function replEval(e) {
 							replInput.remove();
 							replConsole.style.color = "white";
 							replConsole.style.backgroundColor = "darkblue";
-							document.getElementsByTagName("html").style.backgroundColor = "darkblue";
+							document.getElementsByTagName("html")[0].style.backgroundColor = "darkblue";
 
 							replConsole.innerHTML = "<pre>";
 							replConsole.innerHTML += "A problem has been detected and BAD-DOS has been shut down to prevent damage to your computer.<br>";
 							replConsole.innerHTML += "<br>";
 							replConsole.innerHTML += "ERR_STUBBORN_AHH_USER<br>";
 							replConsole.innerHTML += "<br>"
-							replConsole.innerHTML += "If this is the first time you've seen this error screen, restart your computer. If this screen appears again, consider having prolonged contact with plant-based garden lining away from the screen.<br>";
+							replConsole.innerHTML += "If this is the first time you've seen this error screen, restart your computer. If this screen appears again, consider touching grass.<br>";
 							replConsole.innerHTML += "<br>"
 							replConsole.innerHTML += "Technical Information:<br>"
 							replConsole.innerHTML += "<br>";
