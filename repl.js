@@ -225,9 +225,9 @@ function replEval(e) {
 					for (var elem of Object.keys(dummy)) {
 						if (dummy[elem]["fileType"]) {
 							if (elem.length >= 7) {
-								print(elem + "\t" + dummy[elem]["fileType"] + "\t" + dummy[elem]["permString"] + "<br>");
+								print(elem + "\t" + dummy[elem]["fileType"] + "\t\t" + dummy[elem]["permString"] + "<br>");
 							} else {
-								print(elem + "\t\t" + dummy[elem]["fileType"] + "\t" + dummy[elem]["permString"] + "<br>");
+								print(elem + "\t\t" + dummy[elem]["fileType"] + "\t\t" + dummy[elem]["permString"] + "<br>");
 							}
 						}
 					}
