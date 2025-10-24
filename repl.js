@@ -224,7 +224,7 @@ function replEval(e) {
 
 							var html = document.getElementsByTagName("html")[0];
 							html.style.backgroundColor = "darkblue";
-							html.style.overflow = hidden;
+							html.style.overflow = "hidden";
 
 							replConsole.innerHTML = "<pre>";
 							replConsole.innerHTML += "A problem has been detected and BAD-DOS has been shut down to prevent damage to your computer.<br>";
