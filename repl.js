@@ -44,7 +44,11 @@ var fs = {
                 "permString": "drwxr-xr--",
                 "DESKTOP": {
                     "fileType": "DIR",
-                    "permString": "dr-xr--r--"
+                    "permString": "dr-xr--r--",
+					"STYLES": {
+                    "fileType": "EXE",
+                    "permString": "-r-xr-xr-x"
+                }
                 },
                 "DOCUME~1": {
                     "fileType": "DIR",
@@ -155,11 +159,6 @@ function replEval(e) {
 			// Add fresh input to the console window
 			print(replPrompt.innerHTML + replInput.value + "<br>");
 			var command = replInput.value.split(' ');
-			
-			// Adjust width to account for prompt
-			replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
-			replInput.style.width = (initialWidth - getComputedStyle(replPrompt).width) + "px";
-			replConsole.style.width = initialWidth + "px";
 
 			// Check if input is a valid command
 			switch (command[0].toUpperCase()) {
@@ -328,6 +327,13 @@ function replEval(e) {
 					print("This program is provided as-is, for free, for educational purposes only<br>");
 					print("Does anybody even read those nowadays ?<br>");
 					break;
+				case "STYLES":
+					if (replCwd.at(-1) == "DESKTOP") {
+						window.parent.postMessage("Hi", "*");
+					} else {
+						print("Bad command or file name<br>");
+					}
+					break;
 				case "WINVER":	// *fetch for the neolithic age
 					print("<br>");
 					print(" BAD-DOS version 6.4<br>");
@@ -344,7 +350,7 @@ function replEval(e) {
 
 					if (Object.keys(dummy).includes(command[0].toUpperCase())) { print("This program is unavailable in the current running mode<br>") }
 					else { print("Bad command or file name<br>"); }
-					break
+					break;
 			}
 
 			// Add last input to history
@@ -353,6 +359,18 @@ function replEval(e) {
 
 			// Blank input box
 			replInput.value = "";
+
+			// Adjust input size to account for prompt size
+			replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
+			replPrompt.style.width = (replPrompt.getBoundingClientRect().right - replPrompt.getBoundingClientRect().left) + "px";
+			console.log(replPrompt.style.width);
+			console.log(replInput.style.width);
+
+			if ((380 - parseInt(replPrompt.style.width.slice(0, -2))) <= 250) {
+				replInput.style.width = (380 - parseInt(replPrompt.style.width.slice(0, -2))) + "px";
+			} else {
+				replInput.style.width = "250px";
+			}
 
 			// Re-focus on the input area
 			window.location.href = "#repl_input";
@@ -383,11 +401,17 @@ print("Starting BAD-DOS...<br><br>");
 replPrompt.innerHTML = replCwd.join("\\") + "\\>";
 
 // Get initial width parameter
-initialWidth = getComputedStyle(replPrompt).width + getComputedStyle(replInput).width;
-replConsole.style.width = initialWidth + "px";
+initialWidth = document.getElementsByTagName("body")[0].getBoundingClientRect().right - document.getElementsByTagName("body")[0].getBoundingClientRect().left;
 
 // Adjust width to account for prompt
 replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
+replPrompt.style.width = (replPrompt.getBoundingClientRect().right - replPrompt.getBoundingClientRect().left) + "px";
+
+if ((380 - parseInt(replPrompt.style.width.slice(0, -2))) <= 250) {
+	replInput.style.width = (380 - parseInt(replPrompt.style.width.slice(0, -2))) + "px";
+} else {
+	replInput.style.width = "250px";
+}
 
 // Add a function to focus the input widget regardless of where one clicks in the window
 window.onclick = function () { document.getElementById("repl_input").focus(); }
