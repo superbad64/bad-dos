@@ -10,7 +10,7 @@
 				background-color: black;
 				color: white;
 				padding: 0 0 0 0;
-				margin: 0 0 0 0.5em;
+				margin: 0 0.15em 0 0.15em;
 			}
 			pre {
 				font-family: "Lucida Console";
@@ -19,6 +19,8 @@
 				color: white;
 				padding: 0;
 				margin: 0;
+				text-wrap: wrap;
+				word-wrap: break-word;
 			}
 			input {
 				font-family: "Lucida Console";
@@ -36,7 +38,7 @@
 		</style>
 	</head>
 	<body>
-		<pre size="80" id="repl_console"></pre>
+		<pre id="repl_console"></pre>
 		<span id="repl_prompt">C:\</span><input autofocus maxlength="80" id="repl_input"></input>
 	</body>
 	<script src="repl.js"></script>

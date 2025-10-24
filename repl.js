@@ -145,18 +145,19 @@ function replEval(e) {
 			// Add fresh input to the console window
 			print(replPrompt.innerHTML + replInput.value + "<br>");
 			var command = replInput.value.split(' ');
-			// Re-focus on the input area
-			window.location.href = "#repl_input";
+			
 			// Adjust width to account for prompt
 			replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
+			replInput.style.width = (initialWidth - getComputedStyle(replPrompt).width) + "px";
+			replConsole.style.width = initialWidth + "px";
 
 			// Check if input is a valid command
-			switch (command[0]) {
+			switch (command[0].toUpperCase()) {
 				case "":
 					break;
 				// Built-ins
-				case "cd":	// Changes the workdir of the simulated file system
-				case "chdir":
+				case "CD":	// Changes the workdir of the simulated file system
+				case "CHDIR":
 					// Prevent directory traversal attack (as if that was a thing on a VFS)
 					if ((replCwd.length == 1) && (command[1] == "..")) {
 						print("Access denied<br>");
@@ -193,13 +194,13 @@ function replEval(e) {
 						}
 					}
 					break;
-				case "cls":	// Clears the screen
+				case "CLS":	// Clears the screen
 					replConsole.innerHTML = "";
 					break;
-				case "del":	// Utterly breaks things if left alone
-				case "deltree":
-				case "rm":
-				case "rmdir":
+				case "DEL":	// Utterly breaks things if left alone
+				case "DELTREE":
+				case "RM":
+				case "RMDIR":
 					if ((replCwd.at(-1) == "DOS") && (command[1].toUpperCase() == "SYSTEM32")) {
 						print(sys32DeleteResponse[easterEggIndex] + "<br>");
 						if (easterEggIndex + 1 != sys32DeleteResponse.length) {
@@ -209,7 +210,7 @@ function replEval(e) {
 						print("File system is read-only<br>");	// No deleting anything !
 					}
 					break;
-				case "dir":	// Displays content of current working dir
+				case "DIR":	// Displays content of current working dir
 					print("<br>");
 					print("&nbsp;Volume in drive C is BAD-DOS_64<br>");
 					print("&nbsp;Volume Serial Number is BAAD-C0D3<br><br>");
@@ -239,49 +240,49 @@ function replEval(e) {
 					}
 					print("<br>");
 					break;
-				case "echo":	// Displays things. Probably prone to be injected to hell and back
+				case "ECHO":	// Displays things. Probably prone to be injected to hell and back
 					for (let e of command.slice(1)) {
 						print(e + " ");
 					}
 					print("<br>");
 					break;
-				case "help":	// Calls 911 for you because computering hard
+				case "HELP":	// Calls 911 for you because computering hard
 					if (command.length == 1) {
 						print("Welcome to BAD-DOS version 6.4<br>");
 						print("Available commands:<br>");
 						print("&nbsp;cd chdir cls del deltree dir echo help motd rm rmdir winver<br>");
 						print("Type \"help \<command\>\" for more<br>");
 					} else {
-						switch (command[1]) {
-							case "cd":
-							case "chdir":
-								print("Usage: " + command[1] + " \<dst\><br>");
+						switch (command[1].toUpperCase()) {
+							case "CD":
+							case "CHDIR":
+								print("Usage: " + command[1].toUpperCase() + " \<dst\><br>");
 								print("Changes directory to \<dst\><br>");
 								break;
-							case "del":
-							case "rm":
-								print("Usage: " + command[1] + " \<file\><br>");
+							case "DEL":
+							case "RM":
+								print("Usage: " + command[1].toUpperCase() + " \<file\><br>");
 								print("Deletes file \<file\><br>");
 								break;
-							case "deltree":
-							case "rmdir":
-								print("Usage: " + command[1] + " \<dir\><br>");
+							case "DELTREE":
+							case "RMDIR":
+								print("Usage: " + command[1].toUpperCase() + " \<dir\><br>");
 								print("Recursively deletes directory \<dir\> and all its contents<br>");
 								break;
-							case "echo":
-								print("Usage: echo \<...\><br>");
+							case "ECHO":
+								print("Usage: ECHO \<...\><br>");
 								print("Prints all following arguments to the command line<br>");
 								break;
-							case "help":
-								print("Usage: help \<command\><br>");
+							case "HELP":
+								print("Usage: HELP \<command\><br>");
 								print("Should hopefully display this exact message !<br>");
 								break;
-							case "motd":
-								print("Usage: motd<br>");
+							case "MOTD":
+								print("Usage: MOTD<br>");
 								print("Displays a greeting message<br>");
 								break;
-							case "winver":
-								print("Usage: winver<br>");
+							case "WINVER":
+								print("Usage: WINVER<br>");
 								print("Displays current OS version");
 								break;
 							default:
@@ -291,11 +292,11 @@ function replEval(e) {
 					}
 					break;
 
-				case "motd":	// Displays ancient incantations of yore
+				case "MOTD":	// Displays ancient incantations of yore
 					print("This program is provided as-is, for free, for educational purposes only<br>");
 					print("Does anybody even read those nowadays ?<br>");
 					break;
-				case "winver":	// *fetch for the neolithic age
+				case "WINVER":	// *fetch for the neolithic age
 					print("<br>");
 					print("&nbsp;BAD-DOS version 6.4<br>");
 					print("&nbsp;\"I was bored\" - Bad64<br>");
@@ -320,6 +321,9 @@ function replEval(e) {
 
 			// Blank input box
 			replInput.value = "";
+
+			// Re-focus on the input area
+			window.location.href = "#repl_input";
 			break;
 		case "ArrowUp":
 			if (replHistoryIndex - 1 >= 0) {
@@ -345,6 +349,10 @@ print("Starting BAD-DOS...<br><br>");
 
 // Set prompt
 replPrompt.innerHTML = replCwd.join("\\") + "\\>";
+
+// Get initial width parameter
+initialWidth = getComputedStyle(replPrompt).width + getComputedStyle(replInput).width;
+replConsole.style.width = initialWidth + "px";
 
 // Adjust width to account for prompt
 replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
