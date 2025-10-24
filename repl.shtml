@@ -17,7 +17,7 @@
 				margin: 0 0.15em 0 0.15em;
 			}
 			pre {
-				font-family: "Lucida Console";
+				font-family: "W95Font", "Lucida Console";
 				font-size: 18px;
 				background-color: black;
 				color: white;
@@ -27,7 +27,7 @@
 				word-wrap: break-word;
 			}
 			input {
-				font-family: "Lucida Console";
+				font-family: "W95Font", "Lucida Console";
 				font-size: 18px;
 				font-weight: unset;
 				background-color: unset;
@@ -36,6 +36,9 @@
 				outline: none;
 			}
 			[contenteditable="true"]:focus {
+				font-family: "W95Font", "Lucida Console";
+				font-size: 18px;
+				font-weight: unset;
 				border: unset;
 				outline: none;
 			}
