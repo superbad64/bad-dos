@@ -221,7 +221,10 @@ function replEval(e) {
 							replInput.remove();
 							replConsole.style.color = "white";
 							replConsole.style.backgroundColor = "darkblue";
-							document.getElementsByTagName("html")[0].style.backgroundColor = "darkblue";
+
+							var html = document.getElementsByTagName("html")[0];
+							html.style.backgroundColor = "darkblue";
+							html.style.overflow = hidden;
 
 							replConsole.innerHTML = "<pre>";
 							replConsole.innerHTML += "A problem has been detected and BAD-DOS has been shut down to prevent damage to your computer.<br>";
@@ -233,6 +236,7 @@ function replEval(e) {
 							replConsole.innerHTML += "Technical Information:<br>"
 							replConsole.innerHTML += "<br>";
 							replConsole.innerHTML += "*** STOP: 0x5F3759DF (0xDEADBEEF, 0xABBACABB, 0xABADD00D, 0xDEFEC8ED)";
+							replConsole.innerHTML += "<pre>"
 						}
 					} else {
 						print("File system is read-only<br>");	// No deleting anything !
