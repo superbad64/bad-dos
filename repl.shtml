@@ -47,10 +47,11 @@
 				outline: none;
 			}
 		</style>
+		<base href=".">
 	</head>
 	<body>
 		<pre id="repl_console"></pre>
 		<span id="repl_prompt">C:\</span><input autofocus maxlength="80" id="repl_input"></input>
 	</body>
-	<script src="repl.js"></script>
+	<script src="./repl.js"></script>
 </html>

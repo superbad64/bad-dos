@@ -281,7 +281,7 @@ function replEval(e) {
 					if (command.length == 1) {
 						print("Welcome to BAD-DOS version 6.4<br>");
 						print("Available commands:<br>");
-						print("&nbsp;cd chdir cls del deltree dir echo help motd rm rmdir winver<br>");
+						print(" cd chdir cls del deltree dir echo help motd rm rmdir winver<br>");
 						print("Type \"help \<command\>\" for more<br>");
 					} else {
 						switch (command[1].toUpperCase()) {
@@ -322,11 +322,6 @@ function replEval(e) {
 						}
 					}
 					break;
-
-				case "MOTD":	// Displays ancient incantations of yore
-					print("This program is provided as-is, for free, for educational purposes only<br>");
-					print("Does anybody even read those nowadays ?<br>");
-					break;
 				case "STYLES":
 					if (replCwd.at(-1) == "DESKTOP") {
 						window.parent.postMessage("Hi", "*");
@@ -347,8 +342,17 @@ function replEval(e) {
 						checkString += "[\"" + pathlet + "\"]";
 					}
 					var dummy = eval(checkString);
+					console.log(dummy);
 
-					if (Object.keys(dummy).includes(command[0].toUpperCase())) { print("This program is unavailable in the current running mode<br>") }
+					if (Object.keys(dummy).includes(command[0].toUpperCase())) {
+						try {
+							import("./bin/" + command[0].toLowerCase() + ".js").then(cmd => {
+								print(cmd.default());
+							}).catch(error => { print("Bad command or file name<br>"); });
+						} catch (error) {
+							print("Bad command or file name<br>");
+						}
+					}
 					else { print("Bad command or file name<br>"); }
 					break;
 			}
@@ -363,8 +367,6 @@ function replEval(e) {
 			// Adjust input size to account for prompt size
 			replInput.maxLength = 80 - replPrompt.innerHTML.length - 2;
 			replPrompt.style.width = (replPrompt.getBoundingClientRect().right - replPrompt.getBoundingClientRect().left) + "px";
-			console.log(replPrompt.style.width);
-			console.log(replInput.style.width);
 
 			if ((380 - parseInt(replPrompt.style.width.slice(0, -2))) <= 250) {
 				replInput.style.width = (380 - parseInt(replPrompt.style.width.slice(0, -2))) + "px";
@@ -373,7 +375,7 @@ function replEval(e) {
 			}
 
 			// Re-focus on the input area
-			window.location.href = "#repl_input";
+			window.location.replace("repl.shtml#repl_input");
 			break;
 		case "ArrowUp":
 			if (replHistoryIndex - 1 >= 0) {
