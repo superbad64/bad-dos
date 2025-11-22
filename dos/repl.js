@@ -15,12 +15,6 @@ var sys32DeleteResponse = [ "Can't let you do that, Star Fox !",
 				"...",
 				"...",
 				"...",
-				"...",
-				"...",
-				"...",
-				"...",
-				"...",
-				"...",
 				"...You just don't quit, huh ?",
 				"Alright. I'll let you. Enter that command one more time..." ];
 var easterEggIndex = 0;
@@ -29,6 +23,82 @@ replInput.addEventListener("keydown", replEval);
 
 /* Virtual file system */
 var fs = {
+	"A:": {
+		"fileType": "DIR",
+		"permstring": "dr-xr-xr-x",
+		"ASPICD": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"AUTOEXEC": {
+			"fileType": "BAT",
+			"permString": "-r-xr-xr-x"
+		},
+		"BTCDROM": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"BTDOSM": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"BTCDROM": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"COMMAND": {
+			"fileType": "COM",
+			"permString": "-r-xr-xr-x"
+		},
+		"CONFIG": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"EBD": {
+			"fileType": "CAB",
+			"permString": "-r--r--r--"
+		},
+		"EXTRACT": {
+			"fileType": "EXE",
+			"permString": "-r-xr-xr-x"
+		},
+		"FDISK": {
+			"fileType": "EXE",
+			"permString": "-r-xr-xr-x"
+		},
+		"FINDCD": {
+			"fileType": "EXE",
+			"permString": "-r-xr-xr-x"
+		},
+		"FLASHPT": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"HIMEM": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"IO": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"MSCDEX": {
+			"fileType": "EXE",
+			"permString": "-r-xr-xr-x"
+		},
+		"MSDOS": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"OAKCDROM": {
+			"fileType": "SYS",
+			"permString": "-r--r--r--"
+		},
+		"SETUP": {
+			"fileType": "EXE",
+			"permString": "-r-xr-xr-x"
+		}
+	},
     "C:": {
         "fileType": "DIR",
         "permstring": "dr--r--r--",
@@ -45,10 +115,10 @@ var fs = {
                 "DESKTOP": {
                     "fileType": "DIR",
                     "permString": "dr-xr--r--",
-					"STYLES": {
-                    "fileType": "EXE",
-                    "permString": "-r-xr-xr-x"
-                }
+					"IDDQD": {
+						"fileType": "EXE",
+						"permString": "-r-xr-xr-x"
+					},
                 },
                 "DOCUME~1": {
                     "fileType": "DIR",
@@ -126,7 +196,7 @@ var fs = {
 					"fileType": "LNK",
 					"permString": "-r-xr-xr-x"
 				},
-				"WINVER": {
+				"VER": {
 					"fileType": "EXE",
 					"permString": "-r-xr-xr-x"
 				}
@@ -163,6 +233,12 @@ function replEval(e) {
 			// Check if input is a valid command
 			switch (command[0].toUpperCase()) {
 				case "":
+					break;
+				// Drives
+				case "A:":
+				case "C:":
+					replCwd = [ command[0].toUpperCase() ];
+					replPrompt.innerHTML = command[0].toUpperCase() + "\\>";
 					break;
 				// Built-ins
 				case "CD":	// Changes the workdir of the simulated file system
@@ -281,8 +357,8 @@ function replEval(e) {
 					if (command.length == 1) {
 						print("Welcome to BAD-DOS version 6.4<br>");
 						print("Available commands:<br>");
-						print(" cd chdir cls del deltree dir echo help motd rm rmdir winver<br>");
-						print("Type \"help \<command\>\" for more<br>");
+						print(" cd chdir cls del deltree dir echo help motd rm rmdir ver<br>");
+						print("Type \"help &lt;command&gt;\" for more<br>");
 					} else {
 						switch (command[1].toUpperCase()) {
 							case "CD":
@@ -312,9 +388,9 @@ function replEval(e) {
 								print("Usage: MOTD<br>");
 								print("Displays a greeting message<br>");
 								break;
-							case "WINVER":
-								print("Usage: WINVER<br>");
-								print("Displays current OS version");
+							case "VER":
+								print("Usage: VER<br>");
+								print("Displays current OS version<br>");
 								break;
 							default:
 								print("Unknown command<br>");
@@ -322,19 +398,20 @@ function replEval(e) {
 						}
 					}
 					break;
-				case "STYLES":
-					if (replCwd.at(-1) == "DESKTOP") {
-						window.parent.postMessage("Hi", "*");
-					} else {
-						print("Bad command or file name<br>");
-					}
+				/*
+				case "WIN":
+					window.parent.postMessage("Execute order 66", "*");
 					break;
-				case "WINVER":	// *fetch for the neolithic age
+				*/
+				case "VER":	// *fetch for the neolithic age
 					print("<br>");
-					print(" BAD-DOS version 6.4<br>");
-					print(" \"I was bored\" - Bad64<br>");
+					print("   ▄███▀▀     ▄█▄  <br>");
+					print(" ▄██▀       ▄████  <br>");
+					print(" ██████▄  ▄██▀ ██   BAD-DOS version 6.4.1<br>");
+					print(" ██▀  ▀██ ██▀  ██   \"I was bored\" - Bad64<br>");
+					print(" ██▄  ▄██ ▀███████▀<br>");
+					print("  ▀████▀       ▀█  <br>");
 					print("<br>");
-					// TODO: Some ASCII art ?
 					break;
 				default:	// What even did you just enter
 					var checkString = "fs";
@@ -348,7 +425,10 @@ function replEval(e) {
 						try {
 							import("./bin/" + command[0].toLowerCase() + ".js").then(cmd => {
 								print(cmd.default());
-							}).catch(error => { print("Bad command or file name<br>"); });
+							}).catch(error => { 
+								print("Bad command or file name<br>");
+								console.log(error);
+							});
 						} catch (error) {
 							print("Bad command or file name<br>");
 						}
@@ -381,6 +461,7 @@ function replEval(e) {
 			if (replHistoryIndex - 1 >= 0) {
 				replHistoryIndex -= 1;
 				replInput.value = replHistory[replHistoryIndex];
+				replInput.setSelectionRange(replHistory[replHistoryIndex].length, replHistory[replHistoryIndex].length);
 			}
 			break;
 		case "ArrowDown":
@@ -392,8 +473,10 @@ function replEval(e) {
 				replHistoryIndex += 1;
 				replInput.value = "";
 			}
+			replInput.setSelectionRange(replInput.value.length, replInput.value.length);
 			break;
 	}
+	replInput.setSelectionRange(replInput.value.length, replInput.value.length);
 }
 
 /* Startup */
@@ -417,3 +500,6 @@ if ((380 - parseInt(replPrompt.style.width.slice(0, -2))) <= 250) {
 
 // Add a function to focus the input widget regardless of where one clicks in the window
 window.onclick = function () { document.getElementById("repl_input").focus(); }
+
+// Clear input
+replInput.value = "";
