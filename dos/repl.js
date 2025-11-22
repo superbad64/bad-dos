@@ -363,25 +363,25 @@ function replEval(e) {
 						switch (command[1].toUpperCase()) {
 							case "CD":
 							case "CHDIR":
-								print("Usage: " + command[1].toUpperCase() + " \<dst\><br>");
-								print("Changes directory to \<dst\><br>");
+								print("Usage: " + command[1].toUpperCase() + " &lt;dst&gt;<br>");
+								print("Changes directory to &lt;dst&gt;<br>");
 								break;
 							case "DEL":
 							case "RM":
-								print("Usage: " + command[1].toUpperCase() + " \<file\><br>");
-								print("Deletes file \<file\><br>");
+								print("Usage: " + command[1].toUpperCase() + " &lt;file&gt;<br>");
+								print("Deletes file &lt;file&gt;<br>");
 								break;
 							case "DELTREE":
 							case "RMDIR":
-								print("Usage: " + command[1].toUpperCase() + " \<dir\><br>");
-								print("Recursively deletes directory \<dir\> and all its contents<br>");
+								print("Usage: " + command[1].toUpperCase() + " &lt;dir&gt;<br>");
+								print("Recursively deletes directory &lt;dir&gt; and all its contents<br>");
 								break;
 							case "ECHO":
-								print("Usage: ECHO \<...\><br>");
+								print("Usage: ECHO &lt;...&gt;<br>");
 								print("Prints all following arguments to the command line<br>");
 								break;
 							case "HELP":
-								print("Usage: HELP \<command\><br>");
+								print("Usage: HELP &lt;command\><br>");
 								print("Should hopefully display this exact message !<br>");
 								break;
 							case "MOTD":
