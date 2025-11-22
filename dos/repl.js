@@ -407,10 +407,13 @@ function replEval(e) {
 					print("<br>");
 					print("   ▄███▀▀     ▄█▄  <br>");
 					print(" ▄██▀       ▄████  <br>");
-					print(" ██████▄  ▄██▀ ██   BAD-DOS version 6.4.1<br>");
-					print(" ██▀  ▀██ ██▀  ██   \"I was bored\" - Bad64<br>");
+					print(" ██████▄  ▄██▀ ██  <br>");
+					print(" ██▀  ▀██ ██▀  ██  <br>");
 					print(" ██▄  ▄██ ▀███████▀<br>");
 					print("  ▀████▀       ▀█  <br>");
+					print("<br>");
+					print("BAD-DOS version 6.4.1<br>");
+					print("\"I was bored\" - Bad64<br>");
 					print("<br>");
 					break;
 				default:	// What even did you just enter
