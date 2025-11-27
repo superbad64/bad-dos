@@ -9,11 +9,11 @@
 			}
 
 			@font-face {
-				font-family: "Perfect DOS VGA 437"; src: url("/common/Perfect DOS VGA 437.ttf"); 
+				font-family: "Perfect DOS VGA 437 Win"; src: url("/common/Perfect DOS VGA 437 Win.ttf"); 
 			}
 
 			html, body {
-				font-family: "Perfect DOS VGA 437", "W95Font", "Lucida Console";
+				font-family: "Perfect DOS VGA 437 Win", "W95Font", "Lucida Console";
 				font-size: 18px;
 				background-color: black;
 				color: white;
@@ -21,7 +21,7 @@
 				margin: 0 0.15em 0 0.15em;
 			}
 			pre {
-				font-family: "Perfect DOS VGA 437", "W95Font", "Lucida Console";
+				font-family: "Perfect DOS VGA 437 Win", "W95Font", "Lucida Console";
 				font-size: 18px;
 				background-color: black;
 				color: white;
@@ -31,7 +31,7 @@
 				word-wrap: break-word;
 			}
 			input {
-				font-family: "Perfect DOS VGA 437", "W95Font", "Lucida Console";
+				font-family: "Perfect DOS VGA 437 Win", "W95Font", "Lucida Console";
 				font-size: 18px;
 				font-weight: unset;
 				background-color: unset;
@@ -40,7 +40,7 @@
 				outline: none;
 			}
 			[contenteditable="true"]:focus {
-				font-family: "Perfect DOS VGA 437", "W95Font", "Lucida Console";
+				font-family: "Perfect DOS VGA 437 Win", "W95Font", "Lucida Console";
 				font-size: 18px;
 				font-weight: unset;
 				border: unset;
